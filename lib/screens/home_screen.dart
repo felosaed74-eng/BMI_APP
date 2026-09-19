@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:bmi_app/model/user_bmi_model.dart';
+import 'package:bmi_app/screens/result_screen.dart';
+import 'package:bmi_app/widget/custom_button_widget.dart';
 import 'package:bmi_app/widget/gender_widget.dart';
 import 'package:bmi_app/widget/info_user_widget.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +10,8 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+ static String route = "HomeScreen";
+ 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -12,8 +19,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool switchBtn = false;
   bool isMale = true;
-  int height = 150;
-  int weight = 60;
+  int height = 176;
+  int weight = 80;
   int age =21;
 
   @override
@@ -168,18 +175,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: MaterialButton(
-        onPressed: (){},
-        color: Color(0xff3D18E8),
-        padding: EdgeInsets.symmetric(vertical: 30), 
-        child: Text(
-          "Calculate",
-          style: TextStyle(
-            fontSize: 32,
-            fontWeight: .w600,
-            color: Colors.white
-          ),
-          ), 
+      bottomNavigationBar: CustomButtonBMI(
+        title: "Calculate",
+        onPressed:() {
+          //double calculateBmi = (weight / pow(height / 100 , 2)).roundToDouble();
+          //print(calculateBmi);
+          var user = UserBmiModel(
+            gender: isMale ? "Male" : "Female", 
+            height: height, 
+            weight: weight, 
+            age: age
+            );
+          Navigator.of(context)
+          .pushNamed(ResultScreen.route , arguments: user);
+        },
       ),
     );
   }
